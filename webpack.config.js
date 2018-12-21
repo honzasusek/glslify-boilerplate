@@ -1,13 +1,28 @@
-const path = require("path");
+"use strict";
 
-HtmlWebpackPlugin = require("html-webpack-plugin");
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
   mode: "development",
   entry: "./src/index.js",
   output: {
-    path: __dirname + "/dist",
+    path: path.join(__dirname, "/dist"),
     filename: "index_bundle.js"
+  },
+  module: {
+    rules: [
+      {
+        test: /\.(glsl|frag|vert)$/,
+        exclude: /node_modules/,
+        use: [
+          "raw-loader",
+          {
+            loader: "glslify-loader"
+          }
+        ]
+      }
+    ]
   },
   serve: {
     port: 1337,
